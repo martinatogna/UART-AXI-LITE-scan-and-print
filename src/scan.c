@@ -2,9 +2,9 @@
  * mini-scanf - Minimal scanf() implementation for embedded projects. 
  * Copyright (c) 2023 Aleksej Muratov
  */
-#include "include/scan.h"
+#include "scan.h"
 #include <stdint.h>
-#include "include/tinyIO.h"
+#include "tinyIO.h"
 // implementation of basic dependencies
 // std
 int c_isspace(const char c)
@@ -142,7 +142,7 @@ int	c_isdigit(int c)
                 {
                     // Implementation for %s
                     char* t = save ? va_arg(ap, char*) : NULL;
-                    while (CURCHAR != '\n' && CURCHAR != EOF && (!lenEn || len > 0)) {
+                    while (CURCHAR != '\n' && CURCHAR != '\r' && CURCHAR != EOF && (!lenEn || len > 0)) {
                         if (save)
                             *t++ = CURCHAR;
                         NEXTCHAR;
@@ -179,6 +179,7 @@ int	c_isdigit(int c)
 char backch = 0;
 char c_getch()
 {
+    return (char)_getchar();
 	if(backch == 0)
 		return (char)_getchar();
 	else
@@ -204,6 +205,7 @@ bool c_getbackch(char b)
 Calls uart_get_char() to retrieve a character received on UART (RX).
 Returns the character received from uart_get_char().
 */
+
 uint32_t _getchar(){
 
     return uart_get_char();
